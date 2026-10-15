@@ -3,7 +3,7 @@ import CONSTANTS from './constants';
 const { NEIGHBORS } = CONSTANTS;
 
 class Cell {
-  constructor(q, r, s, universe, state = Math.floor((Math.random() * 3) * .4)) {
+  constructor(q, r, s, universe, state = Math.floor(Math.random() * 3 * 0.4)) {
     this.coord = { q, r, s };
     this.state = state;
     this.universe = universe;
@@ -13,7 +13,7 @@ class Cell {
 
   // converts axial coordinate to pixel coordinate
   hexToPixel(q, s, size) {
-    const x = (Math.sqrt(3) * q + Math.sqrt(3) / 2 * s) * size;
+    const x = (Math.sqrt(3) * q + (Math.sqrt(3) / 2) * s) * size;
     const y = (3 / 2) * s * size;
     const pixelCoord = { x: x, y: y };
     return pixelCoord;
@@ -34,15 +34,16 @@ class Cell {
   newState() {
     const heads = this.getHeadcount();
     let newState;
-    switch(this.state) {
+    switch (this.state) {
       case 0:
         if (heads === 4) {
-          newState = 1;} else {
-            newState = 0;
-          }
+          newState = 1;
+        } else {
+          newState = 0;
+        }
         break;
       case 1:
-        switch(heads) {
+        switch (heads) {
           case 1:
             newState = 2;
             break;
@@ -61,10 +62,10 @@ class Cell {
           default:
             newState = 0;
             break;
-          };
+        }
         break;
       case 2:
-        switch(heads) {
+        switch (heads) {
           case 1:
             newState = 2;
             break;
@@ -80,15 +81,15 @@ class Cell {
           default:
             newState = 0;
             break;
-        };
+        }
         break;
-    };
+    }
     return newState;
   }
 
   getNeighborCoords(q, s) {
     const neighbors = [];
-    NEIGHBORS.forEach(delta => {
+    NEIGHBORS.forEach((delta) => {
       const coord = [q + delta[0], s + delta[1]];
       neighbors.push(coord);
     });

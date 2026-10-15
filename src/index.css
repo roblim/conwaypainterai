@@ -1,11 +1,13 @@
-.material-icons { font-size: 18px; }
+.material-icons {
+  font-size: 18px;
+}
 
 body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background-color: black;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 .app-container {
@@ -17,6 +19,8 @@ body {
 
 canvas {
   z-index: -1;
+  /* p5 2.x routes touch through pointer events; stop the page panning while painting. */
+  touch-action: none;
 }
 
 #main-bar {
@@ -30,7 +34,7 @@ canvas {
 }
 
 #app-title {
-  font-family: 'Bungee Shade', cursive;
+  font-family: "Bungee Shade", cursive;
   padding: 10px;
   border-radius: 10px;
   color: white;
@@ -41,14 +45,29 @@ canvas {
   cursor: default;
 }
 
+.icon {
+  margin: 0 4px;
+}
+
 #social-links {
   padding: 10px;
   border-radius: 5px;
   font-size: 30px;
 }
 
-#social-links i:hover {
+#social-links .icon-button {
+  display: inline;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: inherit;
   cursor: pointer;
+}
+
+.icon-button:hover {
+  border: none;
 }
 
 #ui-controls {
@@ -78,51 +97,54 @@ button:hover {
   align-items: center;
 }
 
-.fa {
+.icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
   color: white;
+  vertical-align: middle;
 }
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    border-radius: 5px;
-    border: none;
-    margin: auto;
-    z-index: 0; /* Sit on top */
-    left: 0;
-    top: 25%;
-    width: 100%; /* Full width */
-    height: 1000%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    -webkit-animation-name: fadeIn; /* Fade in the background */
-    -webkit-animation-duration: 0.4s;
-    animation-name: fadeIn;
-    animation-duration: 0.4s
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  border-radius: 5px;
+  border: none;
+  margin: auto;
+  z-index: 0; /* Sit on top */
+  left: 0;
+  top: 25%;
+  width: 100%; /* Full width */
+  height: 1000%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s;
 }
 
 /* The Close Button */
 .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* Modal Header */
 .modal-header {
-    padding: 2px 16px;
-    background-color: #607D8B;
-    color: white;
+  padding: 2px 16px;
+  background-color: #607d8b;
+  color: white;
 }
 
 .modal-header i {
@@ -131,14 +153,16 @@ button:hover {
 }
 
 /* Modal Body */
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+}
 
 /* Modal Footer */
 .modal-footer {
-    padding: 2px 16px;
-    background-color: #607D8B;
-    color: white;
-    font-size: 30px;
+  padding: 2px 16px;
+  background-color: #607d8b;
+  color: white;
+  font-size: 30px;
 }
 
 .modal-social-links {
@@ -148,37 +172,59 @@ button:hover {
 
 /* Modal Content */
 .modal-content {
-    position: relative;
-    font-size: 16px;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    border-radius: 5px;
-    width: 50%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: slideIn;
-    -webkit-animation-duration: 0.4s;
-    animation-name: slideIn;
-    animation-duration: 0.4s
+  position: relative;
+  font-size: 16px;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  border-radius: 5px;
+  width: 50%;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s;
 }
 /* Add Animation */
 @-webkit-keyframes slideIn {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
+  from {
+    bottom: -300px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
+  from {
+    bottom: -300px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeIn {
-    from {opacity: 0}
-    to {opacity: 1}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-    from {opacity: 0}
-    to {opacity: 1}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

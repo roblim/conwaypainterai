@@ -1,10 +1,6 @@
 import CONSTANTS from './constants';
 
-const {
-        RUN,
-        RING,
-        INSPECT
-      } = CONSTANTS;
+const { RUN, RING, INSPECT } = CONSTANTS;
 
 class Interface {
   constructor(sketch, universe) {
@@ -50,43 +46,87 @@ class Interface {
   }
 
   playButton(parentId) {
-    const playButton = this.sketch.createButton('<span class="button-contents"><i class="material-icons">pause</i><i class="material-icons">play_arrow</i></span>');
-    playButton.mousePressed(this.startToggle).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    const playButton = this.sketch.createButton(
+      '<span class="button-contents"><i class="material-icons">pause</i><i class="material-icons">play_arrow</i></span>',
+    );
+    playButton
+      .mousePressed(this.startToggle)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   randomizeButton(parentId) {
-    const randomizeButton = this.sketch.createButton('<span class="button-contents"><i class="material-icons">shuffle</i><span>&nbsp;Randomize</span></span>');
-    randomizeButton.mousePressed(this.randomize).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    const randomizeButton = this.sketch.createButton(
+      '<span class="button-contents"><i class="material-icons">shuffle</i><span>&nbsp;Randomize</span></span>',
+    );
+    randomizeButton
+      .mousePressed(this.randomize)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   clearButton(parentId) {
-    const clearButton = this.sketch.createButton('<span class="button-contents"><i class="material-icons">backspace</i><span>&nbsp;Clear</span></span>');
-    clearButton.mousePressed(this.clear).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    const clearButton = this.sketch.createButton(
+      '<span class="button-contents"><i class="material-icons">backspace</i><span>&nbsp;Clear</span></span>',
+    );
+    clearButton
+      .mousePressed(this.clear)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   hexBrushButton(parentId) {
-    const hexBrushButton = this.sketch.createButton('<span class="button-contents"><i class="material-icons">brush</i><span>&nbsp;Plain Brush</span></span>');
-    hexBrushButton.mousePressed(this.setHexBrush).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    const hexBrushButton = this.sketch.createButton(
+      '<span class="button-contents"><i class="material-icons">brush</i><span>&nbsp;Plain Brush</span></span>',
+    );
+    hexBrushButton
+      .mousePressed(this.setHexBrush)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   ringBrushButton(parentId) {
-    const ringBrushButton = this.sketch.createButton('<span class="button-contents"><i class="material-icons">radio_button_unchecked</i><span>&nbsp;Ring Brush</span></span>');
-    ringBrushButton.mousePressed(this.setRingBrush).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    const ringBrushButton = this.sketch.createButton(
+      '<span class="button-contents"><i class="material-icons">radio_button_unchecked</i><span>&nbsp;Ring Brush</span></span>',
+    );
+    ringBrushButton
+      .mousePressed(this.setRingBrush)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   eraserToggleButton(parentId) {
-    const eraserToggleButton = this.sketch.createButton('<span class="button-contents"><i class="material-icons">tab</i><span>&nbsp;Eraser Mode</span></span>');
-    eraserToggleButton.mousePressed(this.eraserToggle).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    const eraserToggleButton = this.sketch.createButton(
+      '<span class="button-contents"><i class="material-icons">tab</i><span>&nbsp;Eraser Mode</span></span>',
+    );
+    eraserToggleButton
+      .mousePressed(this.eraserToggle)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   inspectModeButton(parentId) {
     const inspectModeButton = this.sketch.createButton('Inspect Mode');
-    inspectModeButton.mousePressed(this.setInspectMode).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    inspectModeButton
+      .mousePressed(this.setInspectMode)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   logActiveCellsButton(parentId) {
     const logActiveCellsButton = this.sketch.createButton('Log Active Cells');
-    logActiveCellsButton.mousePressed(this.logActiveCells).parent(parentId).mouseOver(this.mouseOver).mouseOut(this.mouseOut);
+    logActiveCellsButton
+      .mousePressed(this.logActiveCells)
+      .parent(parentId)
+      .mouseOver(this.mouseOver)
+      .mouseOut(this.mouseOut);
   }
 
   // Button Callbacks

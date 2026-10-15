@@ -1,30 +1,29 @@
-import Universe from './universe';
+import { inject } from '@vercel/analytics';
+import p5 from 'p5';
+import './index.css';
 import CONSTANTS from './constants';
 import Interface from './interface';
+import { setupModal } from './modal';
+import Universe from './universe';
 
-const {
-        RUN,
-        RING,
-        DEFAULT,
-        INSPECT
-      } = CONSTANTS;
+const { RUN, RING, INSPECT } = CONSTANTS;
 
-const p5Canvas = function( sketch ) {
-  let width = sketch.windowWidth +50;
+const p5Canvas = (sketch) => {
+  let width = sketch.windowWidth + 50;
   let height = sketch.windowHeight + 50;
-  let cellSize = 8;
+  const cellSize = 8;
 
   let uni = new Universe(width, height, cellSize, sketch);
-  let ui = new Interface(sketch, uni);
+  const ui = new Interface(sketch, uni);
 
-  sketch.setup = function() {
-    let canvas = sketch.createCanvas(width, height);
+  sketch.setup = () => {
+    const canvas = sketch.createCanvas(width, height);
     canvas.position(-50, -50);
     sketch.cursor(sketch.CROSS);
     ui.interfaceSetup('ui-controls');
   };
 
-  sketch.draw = function() {
+  sketch.draw = () => {
     sketch.frameRate(ui.slider.value());
     sketch.background('black');
     uni.render();
@@ -32,103 +31,58 @@ const p5Canvas = function( sketch ) {
     fpsCounter();
   };
 
-  sketch.windowResized = function() {
-    width = sketch.windowWidth +50;
+  sketch.windowResized = () => {
+    width = sketch.windowWidth + 50;
     height = sketch.windowHeight + 50;
     sketch.resizeCanvas(width, height);
     uni = new Universe(width, height, cellSize, sketch);
     ui.universe = uni;
     ui.painter = uni.painter;
-  }
+  };
 
-  const fpsCounter = function() {
+  const fpsCounter = () => {
     sketch.push();
     sketch.fill(255);
     sketch.stroke(0);
     var fps = sketch.frameRate();
-    sketch.text("FPS: " + fps.toFixed(2), sketch.width - 80, sketch.height - 85);
+    sketch.text('FPS: ' + fps.toFixed(2), sketch.width - 80, sketch.height - 85);
     sketch.pop();
   };
 
-  sketch.touchStarted = function() {
-    uni.painter.paintCell(
-      sketch.mouseX,
-      sketch.mouseY
-      );
-    return false;
-  };
-
-  sketch.touchEnded = function() {
-    return false;
-  };
-
-  sketch.touchMoved = function() {
-    switch(uni.painter.brush) {
-      case RING:
-        uni.painter.setBrush();
-        break;
-      default:
-        uni.painter.paintCell(
-          sketch.mouseX,
-          sketch.mouseY
-          );
-        if (uni.painter.mode === RUN) {
-        uni.painter.paintCell(
-          sketch.pmouseX,
-          sketch.pmouseY
-          );
-        }
-        break;
-    };
-    return false;
-  };
-
-  sketch.mousePressed = function() {
-    switch(uni.painter.mode) {
+  sketch.mousePressed = () => {
+    switch (uni.painter.mode) {
       case INSPECT:
-        console.log(
-          uni.getCellPixel(sketch.mouseX, sketch.mouseY)
-        );
+        console.log(uni.getCellPixel(sketch.mouseX, sketch.mouseY));
         break;
       default:
-        switch(uni.painter.brush) {
+        switch (uni.painter.brush) {
           case RING:
-          uni.painter.setBrush();
-          break;
+            uni.painter.setBrush();
+            break;
           default:
-          uni.painter.paintCell(
-            sketch.mouseX,
-            sketch.mouseY
-          );
-          break;
-        };
+            uni.painter.paintCell(sketch.mouseX, sketch.mouseY);
+            break;
+        }
         break;
     }
   };
-  sketch.mouseReleased = function() {
-  };
+  sketch.mouseReleased = () => {};
 
-  sketch.mouseDragged = function() {
-    switch(uni.painter.brush) {
+  sketch.mouseDragged = () => {
+    switch (uni.painter.brush) {
       case RING:
         uni.painter.setBrush();
         break;
       default:
-        uni.painter.paintCell(
-          sketch.mouseX,
-          sketch.mouseY
-          );
-          if (uni.painter.mode === RUN) {
-          uni.painter.paintCell(
-            sketch.pmouseX,
-            sketch.pmouseY
-            );
-          }
+        uni.painter.paintCell(sketch.mouseX, sketch.mouseY);
+        if (uni.painter.mode === RUN) {
+          uni.painter.paintCell(sketch.pmouseX, sketch.pmouseY);
+        }
         break;
-    };
-  }
+    }
+  };
 
-  sketch.deviceShaken = function() {
+  sketch.deviceShaken = () => {
     if (uni.painter.mode === RUN) {
       uni.painter.mode = null;
       uni.clearGrid();
@@ -138,9 +92,9 @@ const p5Canvas = function( sketch ) {
     return false;
   };
 
-  sketch.keyPressed = function() {
-    switch(sketch.keyCode) {
-      case 32:
+  sketch.keyPressed = () => {
+    switch (sketch.key) {
+      case ' ':
         if (uni.painter.mode === RUN) {
           uni.painter.mode = null;
         } else if (uni.painter.mode === null) {
@@ -154,8 +108,14 @@ const p5Canvas = function( sketch ) {
         uni.resetGridRandom();
         sketch.redraw();
         break;
-    };
+    }
   };
 };
 
-var myp5 = new p5(p5Canvas, 'sketch');
+// The Friendly Error System helps while developing but costs time every frame
+// and re-fetches page scripts to lint them; p5 recommends disabling it in production.
+p5.disableFriendlyErrors = !import.meta.env.DEV;
+
+new p5(p5Canvas, 'sketch');
+setupModal();
+inject();

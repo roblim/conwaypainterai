@@ -1,16 +1,6 @@
-import Universe from './universe';
-import Cell from './cell';
 import CONSTANTS from './constants';
 
-const {
-        HEX_IN_ANGLE,
-        HEX_START_ANGLE,
-        TWO_PI,
-        RUN,
-        RING,
-        DEFAULT,
-        INSPECT
-      } = CONSTANTS;
+const { HEX_IN_ANGLE, HEX_START_ANGLE, TWO_PI, RUN, DEFAULT } = CONSTANTS;
 
 class Painter {
   constructor(universe, sketch) {
@@ -28,7 +18,7 @@ class Painter {
     this.cursors = {
       RING: this.ringCursor.bind(this),
       DEFAULT: this.hexCursor.bind(this),
-    }
+    };
   }
 
   plotCell(cell) {
@@ -38,19 +28,21 @@ class Painter {
     } else if (cell.state === 2) {
       this.sketch.fill('#FF404C');
     }
-    this.drawHex(cell.pixelCoord.x, cell.pixelCoord.y)
+    this.drawHex(cell.pixelCoord.x, cell.pixelCoord.y);
     this.sketch.pop();
   }
 
   outOfBounds() {
-    return (this.sketch.mouseX < (this.cellSize * 2) ||
-        this.sketch.mouseY < (this.cellSize) ||
-        this.sketch.mouseX > (this.universe.width - this.cellSize) ||
-        this.sketch.mouseY > (this.universe.height - this.cellSize)) ||
-        (this.sketch.pmouseX < (this.cellSize * 2) ||
-            this.sketch.pmouseY < (this.cellSize) ||
-            this.sketch.pmouseX > (this.universe.width - this.cellSize) ||
-            this.sketch.pmouseY > (this.universe.height - this.cellSize))
+    return (
+      this.sketch.mouseX < this.cellSize * 2 ||
+      this.sketch.mouseY < this.cellSize ||
+      this.sketch.mouseX > this.universe.width - this.cellSize ||
+      this.sketch.mouseY > this.universe.height - this.cellSize ||
+      this.sketch.pmouseX < this.cellSize * 2 ||
+      this.sketch.pmouseY < this.cellSize ||
+      this.sketch.pmouseX > this.universe.width - this.cellSize ||
+      this.sketch.pmouseY > this.universe.height - this.cellSize
+    );
   }
 
   renderCursor() {
@@ -89,33 +81,30 @@ class Painter {
   }
 
   ringCursor() {
-
     const pCursorCell = this.universe.getCellPixel(this.sketch.pmouseX, this.sketch.pmouseY);
-    const pBrushCellCoords = pCursorCell.neighborCoords.map(coord => {
+    const pBrushCellCoords = pCursorCell.neighborCoords.map((coord) => {
       const cell = this.universe.getCell(coord[0], coord[1]);
       this.brushQueue.push(cell);
       this.drawHex(cell.pixelCoord.x, cell.pixelCoord.y);
-    })
+    });
 
     const cursorCell = this.universe.getCellPixel(this.sketch.mouseX, this.sketch.mouseY);
-    const brushCellCoords = cursorCell.neighborCoords.map(coord => {
+    const brushCellCoords = cursorCell.neighborCoords.map((coord) => {
       const cell = this.universe.getCell(coord[0], coord[1]);
       this.brushQueue.push(cell);
       this.drawHex(cell.pixelCoord.x, cell.pixelCoord.y);
-    })
+    });
   }
 
   setBrush() {
-    this.brushQueue.map(cell => {
+    this.brushQueue.map((cell) => {
       this.paintCell(cell.pixelCoord.x, cell.pixelCoord.y);
     });
   }
 
   drawHex(x, y) {
     this.sketch.beginShape();
-    for (var a = HEX_START_ANGLE;
-                  a < TWO_PI;
-                  a += HEX_IN_ANGLE) {
+    for (var a = HEX_START_ANGLE; a < TWO_PI; a += HEX_IN_ANGLE) {
       var sx = x + Math.cos(a) * this.cellSize;
       var sy = y + Math.sin(a) * this.cellSize;
       this.sketch.vertex(sx, sy);
@@ -126,11 +115,13 @@ class Painter {
   renderGrid() {
     for (let i = 0; i < this.gridHeight; i++) {
       for (let j = 0; j < this.gridWidth; j++) {
-        if (!this.universe.grid[i][j].state) { continue; }
+        if (!this.universe.grid[i][j].state) {
+          continue;
+        }
         this.sketch.push();
         this.plotCell(this.universe.grid[i][j]);
         this.sketch.pop();
-      };
+      }
     }
   }
 
@@ -141,12 +132,12 @@ class Painter {
     this.sketch.push();
     this.sketch.fill('yellow');
     this.universe.setCell(x, y, state);
-    this.drawHex(x,y);
+    this.drawHex(x, y);
     this.sketch.pop();
   }
 
   render() {
-    switch(this.mode) {
+    switch (this.mode) {
       case RUN:
         this.universe.updateCellStates();
         this.renderGrid();
