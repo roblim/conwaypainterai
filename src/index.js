@@ -1,6 +1,10 @@
-import Universe from './universe';
+import { inject } from '@vercel/analytics';
+import p5 from 'p5';
+import './index.css';
 import CONSTANTS from './constants';
 import Interface from './interface';
+import { setupModal } from './modal';
+import Universe from './universe';
 
 const {
         RUN,
@@ -48,39 +52,6 @@ const p5Canvas = function( sketch ) {
     var fps = sketch.frameRate();
     sketch.text("FPS: " + fps.toFixed(2), sketch.width - 80, sketch.height - 85);
     sketch.pop();
-  };
-
-  sketch.touchStarted = function() {
-    uni.painter.paintCell(
-      sketch.mouseX,
-      sketch.mouseY
-      );
-    return false;
-  };
-
-  sketch.touchEnded = function() {
-    return false;
-  };
-
-  sketch.touchMoved = function() {
-    switch(uni.painter.brush) {
-      case RING:
-        uni.painter.setBrush();
-        break;
-      default:
-        uni.painter.paintCell(
-          sketch.mouseX,
-          sketch.mouseY
-          );
-        if (uni.painter.mode === RUN) {
-        uni.painter.paintCell(
-          sketch.pmouseX,
-          sketch.pmouseY
-          );
-        }
-        break;
-    };
-    return false;
   };
 
   sketch.mousePressed = function() {
@@ -139,8 +110,8 @@ const p5Canvas = function( sketch ) {
   };
 
   sketch.keyPressed = function() {
-    switch(sketch.keyCode) {
-      case 32:
+    switch(sketch.key) {
+      case ' ':
         if (uni.painter.mode === RUN) {
           uni.painter.mode = null;
         } else if (uni.painter.mode === null) {
@@ -158,4 +129,10 @@ const p5Canvas = function( sketch ) {
   };
 };
 
-var myp5 = new p5(p5Canvas, 'sketch');
+// The Friendly Error System helps while developing but costs time every frame
+// and re-fetches page scripts to lint them; p5 recommends disabling it in production.
+p5.disableFriendlyErrors = !import.meta.env.DEV;
+
+new p5(p5Canvas, 'sketch');
+setupModal();
+inject();
