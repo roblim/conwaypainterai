@@ -1,5 +1,28 @@
 # Conway Painter
----
+
+[![CI](https://github.com/roblim/conwaypainterai/actions/workflows/ci.yml/badge.svg)](https://github.com/roblim/conwaypainterai/actions/workflows/ci.yml)
+
+A hexagonal, three-state cellular automaton you paint on. I built it in 2017 as my first
+portfolio project, and in 2026 I'm modernizing it in public, one reviewed phase at a time.
+
+- **Play it:** https://conwaypainter.roblim.com
+- **How it was modernized, with before/after evidence:** [MODERNIZATION.md](MODERNIZATION.md)
+- **The original 2017 code:** [`v1-2017`](https://github.com/roblim/conwaypainterai/tree/v1-2017)
+
+> The modernization is AI-assisted. I directed it with Claude Code, made the decisions, and
+> reviewed every change; see [MODERNIZATION.md](MODERNIZATION.md) for how.
+
+## Running locally
+
+Requires Node 22+ and pnpm (`corepack enable`).
+
+```sh
+pnpm install
+pnpm dev        # dev server
+pnpm build      # production build in dist/
+pnpm lint       # Biome lint + format check
+pnpm bench      # frame-time benchmark against dist/ (see docs/perf.md)
+```
 
 
 ## Overview
@@ -24,16 +47,17 @@ state 1 cell if the headcount is 2 or 4, and dies otherwise (state 0)
 
 ## Architecture and Technologies
 
-This project is implemented with the following technologies:
-- vanilla JavaScript for overall functionality/logic
-- p5.js for drawing/rendering the CGOL universe and implementing the painting interface
-- Webpack to bundle and serve up scripts
+- Vanilla JavaScript for the simulation and UI logic (TypeScript is coming in Phase 2)
+- [p5.js](https://p5js.org/) 2.x for rendering the universe and handling painting input
+- [Vite](https://vite.dev/) for the dev server and build, [pnpm](https://pnpm.io/) for packages
+- [Biome](https://biomejs.dev/) for lint and format, GitHub Actions for CI, Vercel for hosting
 
-#### Scripts
-- universe.js: logic for creating/updating visual elements in CGOL universe (cells)
-- cell.js: cell objects for maintaining cell state (cube and pixel coordinates, state, etc.) and logic for determining new state, polling state of neighbors, and interconverting between coordinate systems
-- painter.js: logic for rendering grid and cells into p5.js canvas
-- interface.js: logic for UI elements
+#### Modules
+- `universe.js`: the hex grid, coordinate conversion, and stepping the simulation
+- `cell.js`: per-cell state, neighbor lookup, and the transition rules
+- `painter.js`: drawing the grid, cells and brush cursors onto the p5 canvas
+- `interface.js`: the control bar (buttons and speed slider)
+- `modal.js`: the About dialog
 
 ## Challenges
 
