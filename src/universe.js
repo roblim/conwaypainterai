@@ -2,7 +2,7 @@ import Cell from './cell';
 import Painter from './painter';
 
 class Universe {
-  constructor(width, height, cellSize, sketch, seed)  {
+  constructor(width, height, cellSize, sketch, seed) {
     this.width = width;
     this.height = height;
     this.cellSize = cellSize;
@@ -18,28 +18,28 @@ class Universe {
     let r;
     let qStart = 1;
     let rStart = 0;
-    let grid = [];
+    const grid = [];
     let tempRow = [];
 
     for (let i = 0; i < this.gridHeight; i++) {
       if (i % 2 === 0) {
-        qStart --;
+        qStart--;
       }
       q = qStart;
       if (i % 2 !== 0) {
-        rStart --;
+        rStart--;
       }
       r = rStart;
 
       for (let j = 0; j < this.gridWidth; j++) {
-        const s = (-q - r);
+        const s = -q - r;
         tempRow.push(new Cell(q, r, s, this, seed));
         q++;
         r--;
-      };
+      }
       grid.push(tempRow);
       tempRow = [];
-    };
+    }
     return grid;
   }
 
@@ -53,7 +53,7 @@ class Universe {
 
   // converts a rectangular pixel coordinate to an axial coordinate
   pixelToHex(x, y) {
-    const q = (x * (Math.sqrt(3) / 3) - (y / 3)) / this.cellSize;
+    const q = (x * (Math.sqrt(3) / 3) - y / 3) / this.cellSize;
     const s = (y * (2 / 3)) / this.cellSize;
     return this.roundHex(q, s);
   }
@@ -61,7 +61,7 @@ class Universe {
   // pixel coordinates can be floats and can yield non-integer axial coordinates
   // this function rounds non-integer axial coordinates
   roundHex(q, s) {
-    let r = -q - s
+    const r = -q - s;
     let rQ = Math.round(q);
     let rR = Math.round(r);
     let rS = Math.round(s);
@@ -100,17 +100,13 @@ class Universe {
   updateCellStates() {
     for (let i = 0; i < this.gridHeight; i++) {
       for (let j = 0; j < this.gridWidth; j++) {
-        if (i < 1 ||
-            i > (this.gridHeight - 2) ||
-            j < 1 ||
-            j > (this.gridWidth - 2)
-            ) {
-              this.tempGrid[i][j].state = 0;
-            } else {
-              this.tempGrid[i][j].state = this.grid[i][j].newState();
-            }
-      };
-    };
+        if (i < 1 || i > this.gridHeight - 2 || j < 1 || j > this.gridWidth - 2) {
+          this.tempGrid[i][j].state = 0;
+        } else {
+          this.tempGrid[i][j].state = this.grid[i][j].newState();
+        }
+      }
+    }
     this.grid = this.tempGrid;
   }
 
@@ -122,8 +118,8 @@ class Universe {
         if (cell.state > 0) {
           activeCellCoords.push(cell.coord);
         }
-      };
-    };
+      }
+    }
     console.log(activeCellCoords);
   }
 
