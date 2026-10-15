@@ -8,7 +8,7 @@ Conway's Game of Life (CGOL) is a well-known cellular automaton invented by math
 
 A cellular automaton consists of a regular grid of cells, with each cell having a finite number of states. At set time intervals, the state of each cell is updated according to a set of rules governed by the state of other cells in each cell's "neighborhood". When implemented visually, cellular automata can result in complex and beautiful patterns and animations, each with it's own personality.
 
-In Conway's Game of Life, each cell is either "state" or "dead" and is affected by eight neighbors - those cells that are vertically, horizontally, or diagonally adjacent. At each time interval, each cell's state is updated according to the following rules:
+In Conway's Game of Life, each cell is either "alive" or "dead" and is affected by eight neighbors - those cells that are vertically, horizontally, or diagonally adjacent. At each time interval, each cell's state is updated according to the following rules:
 
 1. Any live cell with fewer than two live neighbors dies.
 2. Any live cell with two or three live neighbors lives.
